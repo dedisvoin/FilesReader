@@ -8,7 +8,7 @@ import threading
 
 # client init and connect ----------------------------------------------------------------------------------------------
 pc_id = input('Enter your PC-ID: ')
-client = Client.Client(cid=pc_id).connect()
+client = Client.Client(host='192.168.21.55', cid=pc_id).connect()
 # client init and connect ----------------------------------------------------------------------------------------------
 
 
@@ -65,7 +65,7 @@ def client_commands_send():
 
 def client_loop():
     while True:
-        client.set_block(True)
+        client.set_block(False)
         time.sleep(0.1)
         try:
             command = client.listen()
@@ -80,7 +80,8 @@ def client_loop():
                         sending_string += f'{file} : {file_size} bytes\n'
                 sending_string += '||'
                 client.send(sending_string.encode())
-                client.set_block(False)
+                client.set_block(True)
+                print(f'\n{debugs.WHAT} You files seed...')
         except: ... # noqa
 
 

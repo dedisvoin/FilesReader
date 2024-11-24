@@ -53,7 +53,9 @@ def command_run(command_args: list[any]):
         for client_id in server.clients:
             sending_string += f'{server.clients[client_id]['address']} : id {server.clients[client_id]['id']}\n'
         sending_string += '||'
+
         command_args[0].send(sending_string.encode())
+        print('sended')
 
     # TODO: Add dir client command
     if command_type == 'dir':
@@ -76,7 +78,9 @@ def command_run(command_args: list[any]):
                 try:
                     received_dirs = server.clients[client_path_id]['client'].recv(1024).decode()
                 except: ... # noqa
+            command_args[0].setblocking(False)
             command_args[0].send(received_dirs.encode())
+
 
 def process_commands_run():
     global file_sender
@@ -107,7 +111,7 @@ Server.start_listen_exit_key()
 # exit listening -------------------------------------------------------------------------------------------------------
 
 # init and start server ------------------------------------------------------------------------------------------------
-server = Server.Server().init()
+server = Server.Server('192.168.21.55').init()
 server.start()
 # init and start server ------------------------------------------------------------------------------------------------
 
